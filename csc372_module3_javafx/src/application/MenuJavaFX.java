@@ -108,9 +108,9 @@ public class MenuJavaFX extends Application {
 		textAreaInstructions = new TextArea();
 		textAreaInstructions.setText("Instructions. Select an option from the Menu above\n"
 				+ "Option 1: Print the current date and time to the text box below.\n"
-				+ "Option 2: Option 2 details\n"
-				+ "Option 3: Option 3 details\n"
-				+ "Option 4: Option 4 details");
+				+ "Option 2: Save text to a predefined text file.\n"
+				+ "Option 3: Change background color to a random Green color.\n"
+				+ "Option 4: Exit program.");
 		textAreaInstructions.setEditable(false);
 		//textAreaInstructions.setPrefColumnCount(20);
 		textAreaInstructions.setPrefRowCount(5);
