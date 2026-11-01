@@ -1,0 +1,466 @@
+Instructions
+
+Creating a User Interface
+
+Create a user interface that has a top bar that includes a menu.
+The menu should have four items.
+
+1) When the user selects the first menu option,
+	then the date and time should be printed in a text box.
+2) When the user selects the second menu option,
+	then the text box contents should be written to a text file named "log.txt."
+3) When the user selects the third menu item then the frame background color changes to random color hue of the color green.
+	The menu option should display the initial random hue each time selected for a single execution of the program.
+	See HTML Color PickerLinks to an external site.
+	https://www.w3schools.com/colors/colors_picker.asp
+4) When the user selects the fourth menu option then the program exits.
+
+
+Outline
+
+---------------------------------------------------------------------
+|								Tile								|
+|-------------------------------------------------------------------|
+|	<MenuItem 1>	<MenuItem 2>	<MenuItem 3>	<MenuItem 4>	|
+|-------------------------------------------------------------------|
+|				<Text field for output OR input to file>			|
+|--------------------------------------------------------------------
+
+Menu Button (drop down)
+	MenuItem 1: Display time
+	MenuItem 2: Text written to file "log.txt"
+	MenuItem 3: Color
+	MenuItem 4: Exit
+<Text Field>
+
+
+Choices for Green in #000000 format:
+
+#000000 - #00ff00
+Any combination of the center 2 characters being 0 1 2 3 4 5 6 7 8 9 A B C D E F
+0 = 0
+1 = 1
+2 = 2
+3 = 3
+4 = 4
+5 = 5
+6 = 6
+7 = 7
+8 = 8
+9 = 9
+A = 10
+B = 11
+C = 12
+D = 13
+E = 14
+F = 15
+
+15 options per character
+
+
+------------------------------------------------------------------------------------------------------------------------------------
+
+package application;
+
+import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.stage.Stage;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.MenuButton;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.TextArea;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.Scene;
+
+public class MenuJavaFX extends Application {
+	
+	private GridPane gridPane1;
+	private Scene scene;
+	private TextArea textAreaInstructions = null;
+	private TextArea textFieldIO = null;
+	
+	@Override
+	public void start(Stage applicationStage) {
+		/*
+		try {
+			BorderPane root = new BorderPane();
+			Scene scene = new Scene(root,400,400);
+			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+			primaryStage.setScene(scene);
+			primaryStage.show();
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		*/
+		gridPane1 = new GridPane();		//Create the GridPane that will be used for layout
+		scene = new Scene(gridPane1);	//Create the Scene that has the GridPane
+		
+		gridPane1.setPrefSize(600,400);	//Set the preferred size of the GridPane
+		
+		//Create the MenuItems
+		MenuItem menuItem1 = new MenuItem();
+		MenuItem menuItem2 = new MenuItem();
+		MenuItem menuItem3 = new MenuItem();
+		MenuItem menuItem4 = new MenuItem();
+		
+		//Set the names of the MenuItems
+		menuItem1.setText("Menu Item 1");
+		menuItem2.setText("Menu Item 2");
+		menuItem3.setText("Menu Item 3");
+		menuItem4.setText("Menu Item 4");
+		
+		//menuItem1 selection functionality
+		menuItem1.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				Alert alert = new Alert(AlertType.INFORMATION, "You selected menuItem1");
+				alert.showAndWait();
+			}
+		});
+		
+		//menuItem2 selection functionality
+		menuItem2.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				Alert alert = new Alert(AlertType.INFORMATION, "You selected menuItem2");
+				alert.showAndWait();
+			}
+		});
+		
+		//menuItem3 selection functionality
+		menuItem3.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				Alert alert = new Alert(AlertType.INFORMATION, "You selected menuItem3");
+				alert.showAndWait();
+			}
+		});
+		
+		//menuItem4 selection functionality
+		menuItem4.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				Alert alert = new Alert(AlertType.INFORMATION, "You selected menuItem4");
+				alert.showAndWait();
+			}
+		});
+		
+		MenuButton menuButton = new MenuButton ("Select", null, menuItem1, menuItem2, menuItem3, menuItem4);	//Create the MenuButton
+		
+		//Instructions to user
+		textAreaInstructions = new TextArea();
+		textAreaInstructions.setText("Instructions. Select an option from the MenuButton below\n"
+				+ "Option 1: Option 1 details\n"
+				+ "Option 2: Option 2 details\n"
+				+ "Option 3: Option 3 details\n"
+				+ "Option 4: Option 4 details");
+		textAreaInstructions.setEditable(false);
+		//textAreaInstructions.setPrefColumnCount(20);
+		textAreaInstructions.setPrefRowCount(5);
+		
+		//Crate the TextField used for input and output
+		textFieldIO = new TextArea();
+		textFieldIO.setText("This is a TextField");
+		textFieldIO.setPrefRowCount(1);
+		
+		gridPane1.add(textAreaInstructions, 0, 0);
+		gridPane1.add(menuButton, 0, 1);		
+		gridPane1.add(textFieldIO, 0, 2);
+		
+		applicationStage.setScene(scene);					//Add the Scene to the window
+		applicationStage.setTitle("Menu Button Program");	//She the window title
+		applicationStage.show();							//Show the window
+		
+	}
+	
+	public static void main(String[] args) {
+		launch(args);
+	}
+}
+
+----------------------------------------------------------------------------------------------------------------------------
+
+package application;
+
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Random;
+
+import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.control.MenuButton;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.TextArea;
+import javafx.scene.layout.Pane;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+//import javafx.scene.control.Alert;				//For Testing
+//import javafx.scene.control.Alert.AlertType;		//For Testing
+
+public class MenuJavaFX extends Application {
+	
+	private Pane pane1;
+	private Scene scene;
+	private TextArea textAreaInstructions = null;
+	private TextArea textFieldIO = null;
+	
+	@Override
+	public void start(Stage applicationStage) {
+		pane1 = new Pane();			//Create the Pane that will be used for layout
+		scene = new Scene(pane1);	//Create the Scene that has the GridPane
+		
+		pane1.setPrefSize(600,400);	//Set the preferred size of the GridPane
+		
+		//Create the MenuItems
+		MenuItem menuItem1 = new MenuItem();
+		MenuItem menuItem2 = new MenuItem();
+		MenuItem menuItem3 = new MenuItem();
+		MenuItem menuItem4 = new MenuItem();
+		
+		//Set the names of the MenuItems
+		menuItem1.setText("Display Time");
+		menuItem2.setText("Save Text");
+		menuItem3.setText("Change Color");
+		menuItem4.setText("Exit");
+		
+		//menuItem1 selection functionality
+		menuItem1.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				/*
+				Alert alert = new Alert(AlertType.INFORMATION, "You selected menuItem1");
+				alert.showAndWait();
+				*/
+				printTime();
+			}
+		});
+		
+		//menuItem2 selection functionality
+		menuItem2.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				/*
+				Alert alert = new Alert(AlertType.INFORMATION, "You selected menuItem2");
+				alert.showAndWait();
+				*/
+				saveText();
+			}
+		});
+		
+		//menuItem3 selection functionality
+		menuItem3.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				/*
+				Alert alert = new Alert(AlertType.INFORMATION, "You selected menuItem3");
+				alert.showAndWait();
+				*/
+				changeBackground();
+			}
+		});
+		
+		//menuItem4 selection functionality
+		menuItem4.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				/*
+				Alert alert = new Alert(AlertType.INFORMATION, "You selected menuItem4");
+				alert.showAndWait();
+				*/
+				exit();
+			}
+		});
+		
+		MenuButton menuButton = new MenuButton ("Select", null, menuItem1, menuItem2, menuItem3, menuItem4);	//Create the MenuButton
+		
+		//Instructions to user
+		textAreaInstructions = new TextArea();
+		textAreaInstructions.setText("Instructions. Select an option from the MenuButton below\n"
+				+ "Option 1: Print the current date and time to the text box below.\n"
+				+ "Option 2: Option 2 details\n"
+				+ "Option 3: Option 3 details\n"
+				+ "Option 4: Option 4 details");
+		textAreaInstructions.setEditable(false);
+		//textAreaInstructions.setPrefColumnCount(20);
+		textAreaInstructions.setPrefRowCount(5);
+		
+		//Crate the TextField used for input and output
+		textFieldIO = new TextArea();
+		textFieldIO.setText("This is a TextField");
+		textFieldIO.setPrefColumnCount(25);
+		textFieldIO.setPrefRowCount(1);
+		
+		//Set location of the objects
+		textAreaInstructions.relocate(0, 0);
+		menuButton.relocate(10, 110);
+		textFieldIO.relocate(100,110);
+		
+		//Add the objects to the pane
+		pane1.getChildren().addAll(textAreaInstructions, menuButton, textFieldIO);
+		
+		applicationStage.setScene(scene);					//Add the Scene to the window
+		applicationStage.setTitle("Menu Button Program");	//She the window title
+		applicationStage.show();							//Show the window
+		
+	}
+	
+	//Method to print the current date and time to the text box
+	public void printTime() {
+		LocalDateTime now = LocalDateTime.now();	
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss a");
+		String formattedTime = now.format(formatter);
+		textFieldIO.setText("The current time is: " + formattedTime);
+	}
+	
+	//Method to save the current text box text to a file
+	public void saveText() {
+		//FileInputStream fileInStream = null;
+		String fileLocation = null;
+		PrintWriter outFS = null;
+		fileLocation = "C:/Users/alexa/git/csc372-module3/csc372_module3_javafx/Text File.txt";
+		try {
+			outFS = new PrintWriter(fileLocation);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		outFS.print(textFieldIO.getText());
+		outFS.close();
+	}
+	
+	public void changeBackground() {
+		int x = 8;
+		int y = 0;
+		String valx = "0";
+		String valy = "0";
+		Random random = new Random();
+		x = random.nextInt(15);			//gets random number from 0 to 15 inclusive
+		y = random.nextInt(15);
+		
+		switch (x) {
+			case 0:
+				valx = "0";
+				break;
+			case 1:
+				valx = "1";
+				break;
+			case 2:
+				valx = "2";
+				break;
+			case 3:
+				valx = "3";
+				break;
+			case 4:
+				valx = "4";
+				break;
+			case 5:
+				valx = "5";
+				break;
+			case 6:
+				valx = "6";
+				break;
+			case 7:
+				valx = "7";
+				break;
+			case 8:
+				valx = "8";
+				break;
+			case 9:
+				valx = "9";
+				break;
+			case 10:
+				valx = "A";
+				break;
+			case 11:
+				valx = "B";
+				break;
+			case 12:
+				valx = "C";
+				break;
+			case 13:
+				valx = "D";
+				break;
+			case 14:
+				valx = "E";
+				break;
+			case 15:
+				valx = "F";
+				break;
+		}
+		
+		switch (y) {
+			case 0:
+				valy = "0";
+				break;
+			case 1:
+				valy = "1";
+				break;
+			case 2:
+				valy = "2";
+				break;
+			case 3:
+				valy = "3";
+				break;
+			case 4:
+				valy = "4";
+				break;
+			case 5:
+				valy = "5";
+				break;
+			case 6:
+				valy = "6";
+				break;
+			case 7:
+				valy = "7";
+				break;
+			case 8:
+				valy = "8";
+				break;
+			case 9:
+				valy = "9";
+				break;
+			case 10:
+				valy = "A";
+				break;
+			case 11:
+				valy = "B";
+				break;
+			case 12:
+				valy = "C";
+				break;
+			case 13:
+				valy = "D";
+				break;
+			case 14:
+				valy = "E";
+				break;
+			case 15:
+				valy = "F";
+				break;
+		}
+		
+		String randomColor = "#00" + valx + valy + "00";
+
+		pane1.setStyle("-fx-background-color: " + randomColor);
+		textFieldIO.setText("The random color selected is: " + randomColor);
+	}
+	
+	public void exit() {
+		Platform.exit();
+	}
+	
+	public static void main(String[] args) {
+		launch(args);
+	}
+}
+
+
+
+
