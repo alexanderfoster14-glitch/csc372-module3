@@ -10,8 +10,11 @@ import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.Scene;
@@ -21,24 +24,22 @@ import javafx.stage.Stage;
 
 public class MenuJavaFX extends Application {
 	
-	private Pane topPane;
-	private Pane middlePane;
-	private Pane mainPane;
+	private GridPane topPane;
+	private GridPane middlePane;
+	private GridPane mainPane;
 	private Scene scene;
 	private TextArea textAreaInstructions = null;
-	private TextArea textFieldIO = null;
+	private TextField textFieldIO = null;
 	
 	@Override
 	public void start(Stage applicationStage) {
-		topPane = new Pane();			//Create the Pane that will be used for layout
-		middlePane = new Pane();
-		mainPane = new Pane();			//Will contain all Panes
+		topPane = new GridPane();			//Create the Pane that will be used for layout
+		middlePane = new GridPane();
+		mainPane = new GridPane();			//Will contain all Panes
 		
-		topPane.setPrefSize(600,50);	//Set the preferred size of the GridPane
-		middlePane.setPrefSize(600, 200);
-		mainPane.setPrefSize(600, 400);
-		
-		mainPane.getChildren().addAll(topPane, middlePane);
+		//topPane.setPrefSize(600,50);	//Set the preferred size of the GridPane
+		//middlePane.setPrefSize(600, 200);
+		//mainPane.setPrefSize(600, 400);
 		
 		scene = new Scene(mainPane, 600, 400);	//Create the Scene that has the GridPane
 		
@@ -112,24 +113,26 @@ public class MenuJavaFX extends Application {
 				+ "Option 3: Change background color to a random Green color.\n"
 				+ "Option 4: Exit program.");
 		textAreaInstructions.setEditable(false);
-		//textAreaInstructions.setPrefColumnCount(20);
+		textAreaInstructions.setPrefColumnCount(30);
 		textAreaInstructions.setPrefRowCount(5);
+		textAreaInstructions.setStyle("-fx-border-color: black; -fx-border-width: 2px;");
 		
 		//Create the TextField used for input and output
-		textFieldIO = new TextArea();
+		textFieldIO = new TextField();
 		textFieldIO.setText("This is a TextField");
-		textFieldIO.setPrefColumnCount(25);
-		textFieldIO.setPrefRowCount(1);
+		//textFieldIO.setPrefColumnCount(25);
+		//textFieldIO.setPrefRowCount(1);
+		textFieldIO.setStyle("-fx-border-color: black; -fx-border-width: 2px;");
 		
-		topPane.getChildren().addAll(hbox);
-		middlePane.getChildren().addAll(textAreaInstructions);
-		middlePane.getChildren().addAll(textFieldIO);
+		topPane.add(hbox, 0, 0);
+		middlePane.add(textAreaInstructions, 0, 0);
+		middlePane.add(textFieldIO, 0, 1);
+		middlePane.setVgap(10);
+		middlePane.setPadding(new Insets (0, 0, 0, 10));
 		
-		//Set location of the objects
-		topPane.relocate(0, 0);
-		middlePane.relocate(0, 30);
-		//textAreaInstructions.relocate(0, 30);
-		textFieldIO.relocate(0, 110);
+		mainPane.add(topPane, 0, 0);
+		mainPane.add(middlePane, 0, 1);
+		mainPane.setVgap(10);
 		
 		applicationStage.setScene(scene);					//Add the Scene to the window
 		applicationStage.setTitle("Menu Button Program");	//She the window title

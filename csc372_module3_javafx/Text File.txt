@@ -1,1 +1,1 @@
-This is a TextField
+The random color selected is: #000800
