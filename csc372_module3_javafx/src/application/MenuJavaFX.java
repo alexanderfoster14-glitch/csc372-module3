@@ -115,7 +115,7 @@ public class MenuJavaFX extends Application {
 		//textAreaInstructions.setPrefColumnCount(20);
 		textAreaInstructions.setPrefRowCount(5);
 		
-		//Crate the TextField used for input and output
+		//Create the TextField used for input and output
 		textFieldIO = new TextArea();
 		textFieldIO.setText("This is a TextField");
 		textFieldIO.setPrefColumnCount(25);
